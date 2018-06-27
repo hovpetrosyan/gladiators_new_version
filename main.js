@@ -71,8 +71,9 @@ var tm = setInterval(function(){
           console.log('---------------->');
         }
         if(gladiators[i].health < 0){
-          gladiators.splice(i,1);
           clearTimeout(gladiators[i].timer);
+          gladiators.splice(i,1);
+          
 
         }
         
