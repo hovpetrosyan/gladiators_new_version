@@ -4,8 +4,134 @@
 	<title></title>
 	<script type="text/javascript" src = 'faker.js'></script>
 	<script type="text/javascript" src = 'main.js'></script>
+	<style type="text/css">
+		td{
+			width:200px;
+		}
+		#cessar img{
+			position: absolute;
+			left:10%;
+			top:40%;
+			border:5px solid blue;
+			border-radius: 50%;
+		}
+
+		#arena{
+			position: absolute;
+			left:70%;
+			top:10%;
+			width:30%;
+		}
+		#container_arena{
+			
+			height:500px;
+			overflow:auto;
+			width: 31%;
+			position: absolute;
+			left:65%;
+			top:5%;
+		}
+		#arena{
+			position: relative;
+			left:0%;
+		}
+		body{
+			background-color: #f48042;
+		}
+		table{
+			background-color: white;
+			text-align: center;
+			font-size: 25px;
+		}
+	</style>
 </head>
 <body>
+	<div id = 'cessar'>
+		<img src="https://i0.wp.com/www.flylanddesigns.com/wp-content/uploads/18513224_1694151304220933_4069488870238978048_n.jpg?ssl=1" height = '250'>
+	</div>
+	<table id = 'gladiators' border = 1 style="width:50%">
+	</table>
+	<div id = 'container_arena'>
+		<table id = 'arena'>
+		</table>
+	</div>
+	
+	<table id = 'death list'>
+	</table>
 
+<script type="text/javascript">
+	let gl_table = document.getElementById('gladiators');
+	const init_healths = [];
+	for (i in gladiators){
+		init_healths.push(gladiators[i].health);
+	}
+	tableCreator();//here is a initial start
+	function tableCreator(){
+			const img_gl = ['https://www.graphicsfactory.com/clip-art/image_files/image/2/1440432-gladiator_cartoon.jpg','https://capetowncaricaturist.files.wordpress.com/2013/08/russell-crowe.jpg'];
+
+		for(i in gladiators){
+		let tr = document.createElement('tr');
+		
+		let td0 = document.createElement('td');
+		const placeNode = document.createTextNode(parseInt(i)+1);
+		td0.appendChild(placeNode);
+		tr.appendChild(td0);
+		gl_table.appendChild(tr);
+
+		let td1 = document.createElement('td');
+		const imageNode = document.createElement('img');
+		imageNode.src = gladiators[i].img;
+		imageNode.setAttribute('height',75); 
+		td1.appendChild(imageNode);
+		tr.appendChild(td1);
+
+		let td3 = document.createElement('td');
+		const nameNode = document.createTextNode(gladiators[i].name);
+		td3.appendChild(nameNode);
+		tr.appendChild(td3);
+		gl_table.appendChild(tr);
+
+		let td2 = document.createElement('td');
+		const healthNode = document.createTextNode(gladiators[i].health);
+		td2.appendChild(healthNode);
+		tr.appendChild(td2);
+		gl_table.appendChild(tr);
+		
+	}
+
+	}
+	
+	function divCreator(w,h){
+		let d = document.createElement('div');
+		d.setAttribute('height',h);
+		d.setAttribute('width',w);
+		return d;
+	}
+	function checkChanges(){
+		let current_healths = [];
+		for (i in gladiators){
+		current_healths.push(gladiators[i].health);
+		if(sum(current_healths)!= sum(init_healths)){
+			while (gl_table.hasChildNodes()) {   
+    			gl_table.removeChild(gl_table.firstChild);
+			}
+			tableCreator();
+		}
+		if(gladiators.length == 1){
+			clearInterval(tm);
+		}
+	}
+
+	}
+	function sum(arr){
+		let sum = 0;
+		for(i in arr){
+			sum+=arr[i];
+		}
+		return sum;
+	}
+
+	var tm = setInterval(function(){checkChanges(),2000});
+</script>
 </body>
 </html>

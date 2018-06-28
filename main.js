@@ -1,4 +1,5 @@
 //console.log(faker.name.findName())
+const img_gl = ['https://www.graphicsfactory.com/clip-art/image_files/image/2/1440432-gladiator_cartoon.jpg','https://capetowncaricaturist.files.wordpress.com/2013/08/russell-crowe.jpg','https://thumbs.dreamstime.com/z/cartoon-gladiator-flexing-illustration-muscular-51211992.jpg','https://thumbs.dreamstime.com/b/cartoon-gladiator-18593886.jpg'];
 class Cessar{
   kill(gladiator){
     gladiator.health = -1;
@@ -8,7 +9,7 @@ class Cessar{
   }
 }
 class Gladiator{
-  constructor(health,power,speed,name){
+  constructor(health,power,speed,name,img){
     this.health = health;
     this.power = power;
     this.speed = speed;
@@ -16,6 +17,7 @@ class Gladiator{
     this.initial_speed = speed;
     this.initial_health = health;
     this.ready_for_hit = true;
+    this.img = img;
   }
   furiousstate(){
     this.speed *= 3; 
@@ -30,8 +32,51 @@ class Gladiator{
          // console.log("suicide");
           opp_nmb = Math.floor(Math.random()*gladiators.length);
         }
-        gladiators[opp_nmb].health-=fake_this.power;/*console.log(gladiators);console.log(gladiators[opp_nmb].health);*/fake_this.ready_for_hit = true;
+        gladiators[opp_nmb].health-=fake_this.power;gladiators[opp_nmb].health = (gladiators[opp_nmb].health).toFixed(3);/*console.log(gladiators);console.log(gladiators[opp_nmb].health);*/fake_this.ready_for_hit = true;
         console.log(' ['+fake_this.name+' x '+ fake_this.health +'] '+' hits '+' ['+gladiators[opp_nmb].name+' x '+ gladiators[opp_nmb].health+']'+'  with power ' + fake_this.power );
+        let arena = document.getElementById('arena');
+
+        let td1 = document.createElement('td');
+        const imageNode = document.createElement('img');
+        imageNode.src = fake_this.img;
+        imageNode.setAttribute('height',50); 
+        td1.appendChild(imageNode);
+        let tr = document.createElement('tr');
+        tr.appendChild(td1);
+
+        let td3 = document.createElement('td');
+        const nameNode = document.createTextNode(fake_this.name);
+        td3.appendChild(nameNode);
+        tr.appendChild(td3);
+        arena.appendChild(tr);
+
+        let td2 = document.createElement('td');
+        const healthNode = document.createTextNode(fake_this.health);
+        td2.appendChild(healthNode);
+        tr.appendChild(td2);
+        arena.appendChild(tr);
+
+        let td4 = document.createElement('td');
+        const imageNode1 = document.createElement('img');
+        imageNode1.src = gladiators[opp_nmb].img;
+        imageNode1.setAttribute('height',50); 
+        td4.appendChild(imageNode1);
+        
+        tr.appendChild(td4);
+
+        let td5 = document.createElement('td');
+        const nameNode1 = document.createTextNode(gladiators[opp_nmb].name);
+        td5.appendChild(nameNode1);
+        tr.appendChild(td5);
+        arena.appendChild(tr);
+
+        let td6 = document.createElement('td');
+        const healthNode1 = document.createTextNode(gladiators[opp_nmb].health);
+        td6.appendChild(healthNode1);
+        tr.appendChild(td6);
+        arena.appendChild(tr);
+
+        //console.log(fake_this.timer);
         },(Math.floor(5000/this.speed)));  
     }
   }
@@ -40,7 +85,7 @@ var gladiators = [];
 var cessar = new Cessar();
 
 for (i=0;i<3;i++){
-  gladiators.push(new Gladiator((100-Math.floor(Math.random()*20)),(5-(Math.random()*3).toFixed(1)),(5-Math.floor(Math.random()*4)),faker.name.findName()));
+  gladiators.push(new Gladiator((100-Math.floor(Math.random()*20)),(5-(Math.random()*3).toFixed(1)),(5-Math.floor(Math.random()*4)),faker.name.findName(),img_gl[i]));
 }
 var tm = setInterval(function(){
   for(i in gladiators){
