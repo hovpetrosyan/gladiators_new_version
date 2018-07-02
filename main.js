@@ -22,7 +22,7 @@ class Gladiator{
     this.img = img;
   }
   furiousstate(){
-    this.speed *= 3; 
+    this.speed*= 3; 
   }
   hit(gladiators){
     let fake_this = this;
@@ -58,7 +58,7 @@ var cessar = new Cessar();
 for (i=0;i<3;i++){
   gladiators.push(new Gladiator((100-Math.floor(Math.random()*20)),(5-(Math.random()*3).toFixed(1)),(5-Math.floor(Math.random()*4)),faker.name.findName(),img_gl[i]));
 }
-var tm = setInterval(function(){
+var timer = setInterval(() => {
   for(i in gladiators){
     if(gladiators.length > 1){
       gladiators[i].speed = gladiators[i].initial_speed*(gladiators[i].health/gladiators[i].initial_health); 
@@ -67,7 +67,9 @@ var tm = setInterval(function(){
         gladiators[i].furiousstate();
       }
       if(gladiators[i].health < 15){
+        let f = gladiators[i].speed;
         gladiators[i].speed = gladiators[i].initial_speed;
+         //alert('furious ' + gladiators[i].name + f + ' ' + gladiators[i].speed);
       }
       if(gladiators[i].health <= 0 )
       {
@@ -75,7 +77,7 @@ var tm = setInterval(function(){
         console.log('what to do great Cessar?save him or kill? :)');
         console.log('Cessar:hmmmmmmm');
         console.log('Cessar:hmmmmm');
-        if(Math.random()>0.8){
+        if(Math.random()>0.25){
           cessar.kill(gladiators[i]);
           console.log('---------------->');
           console.log(gladiators[i].name + ' has been died');
@@ -83,7 +85,9 @@ var tm = setInterval(function(){
           let textNd = document.createTextNode('KILL! ' + gladiators[i].name);
           let cessarNode = document.getElementById('cessar_will');
           cessarNode.appendChild(textNd);
-          setTimeout(cessarNode.removeChild(textNd),1000);
+          setTimeout(function(){cessarNode.removeChild(textNd)},3000);
+          clearTimeout(gladiators[i].timer);
+          gladiators.splice(i,1);
           
         }
         else{
@@ -94,28 +98,26 @@ var tm = setInterval(function(){
           let textNd = document.createTextNode('SAVE! ' + gladiators[i].name);
           let cessarNode = document.getElementById('cessar_will');
           cessarNode.appendChild(textNd);
-          setTimeout(function(){cessarNode.removeChild(textNd)},1000);
+          setTimeout(function(){cessarNode.removeChild(textNd)},3000);
           
         }
-        if(gladiators[i].health < 0){
-          clearTimeout(gladiators[i].timer);
-          gladiators.splice(i,1);
-          
-
-        }
+       
         
       }
-       if(gladiators.length == 1){
+
+       
+
+    }
+    if(gladiators.length == 1){
       console.log('------------------------------------------------------------------------------------------------');
       console.log('yeah,,,the battle has finished');
       console.log(gladiators[0].name + ' has won ' + '[ ' + gladiators[0].health + ']');
       console.log('------------------------------------------------------------------------------------------------');
-      stopF();
-    }
+      clearInterval(timer);
     }
    }
 },20);
-function stopF(){
+function stopF(tm){
   clearInterval(tm);
 }
 function tdCreator(name,arena,tr){
